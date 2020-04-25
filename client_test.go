@@ -10,8 +10,9 @@ import (
 	"github.com/wawan93/proxi"
 )
 
+var cnt int
 var proxiServer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "this is proxi")
+	cnt++
 }))
 
 type pool struct {
@@ -41,6 +42,9 @@ func TestGetClient(t *testing.T) {
 	c.Get(ts.URL)
 
 	if p.c == 0 {
+		t.Error("proxi was not used")
+	}
+	if cnt == 0 {
 		t.Error("proxi was not used")
 	}
 }
