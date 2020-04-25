@@ -29,11 +29,10 @@ type SSLProxiesPool struct {
 	cfg     *SSLProxiesConfig
 }
 
-func NewSSLProxiesPool(cfg *SSLProxiesConfig) (*SSLProxiesPool, error) {
-	p := &SSLProxiesPool{
+func NewSSLProxiesPool(cfg *SSLProxiesConfig) *SSLProxiesPool {
+	return &SSLProxiesPool{
 		cfg: cfg,
 	}
-	return p, p.Update()
 }
 
 func (p *SSLProxiesPool) Update() error {
