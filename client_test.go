@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"sync"
 	"testing"
 
 	"github.com/wawan93/proxi"
@@ -15,16 +14,9 @@ var proxiServer = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter
 	cnt++
 }))
 
-type pool struct {
-	c int
-	m sync.Mutex
-}
+type pool struct{}
 
 func (p *pool) Random() string {
-	p.m.Lock()
-	defer p.m.Unlock()
-	p.c++
-
 	return proxiServer.URL
 }
 
@@ -41,9 +33,6 @@ func TestGetClient(t *testing.T) {
 
 	c.Get(ts.URL)
 
-	if p.c == 0 {
-		t.Error("proxi was not used")
-	}
 	if cnt == 0 {
 		t.Error("proxi was not used")
 	}
