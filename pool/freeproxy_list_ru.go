@@ -53,7 +53,7 @@ func (p *FreeproxyListPool) Update() error {
 		query.Add("anonymity", "true")
 	}
 
-	resp, err := http.Get("https://www.proxy-list.download/api/v1/get?" + query.Encode())
+	resp, err := http.Get("https://www.freeproxy-list.ru/api/proxy?" + query.Encode())
 	if err != nil {
 		return fmt.Errorf("cannot get proxies: %v", err)
 	}
