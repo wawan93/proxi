@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+type Fetcher interface {
+	Fetch(ctx context.Context, url string, headers http.Header) (data string, err error)
+}
+
 type fetcher struct {
 	c       *http.Client
 	timeout time.Duration
