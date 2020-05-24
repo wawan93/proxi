@@ -27,12 +27,12 @@ func (f *fetcher) Fetch(ctx context.Context, url string, headers http.Header) (d
 	if err != nil {
 		return "", fmt.Errorf("cannot create request: %v", err)
 	}
-	req.WithContext(ctx)
 	delete(headers, "Host")
 	req.Header = headers
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
+	req = req.WithContext(ctx)
 
 	c := make(chan string)
 	for i := 0; i < f.tries; i++ {
