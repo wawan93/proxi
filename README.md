@@ -40,8 +40,9 @@ func main() {
 	url := "https://example.com"
 	data, err := f.Fetch(context.Background(), http.MethodGet, url, nil, nil)
 	if err != nil {
-        log.Fatal(err)
-    }
-    log.Println(data)
+        	log.Fatal(err)
+	}
+	
+	log.Println(data)
 }
 ```
