@@ -9,7 +9,7 @@ import (
 )
 
 type Fetcher interface {
-	Fetch(ctx context.Context, url string, headers http.Header) (data string, err error)
+	Fetch(ctx context.Context, method string, url string, headers http.Header, body io.Reader) (data string, err error)
 }
 
 type fetcher struct {
