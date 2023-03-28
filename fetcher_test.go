@@ -19,6 +19,7 @@ func TestFetch(t *testing.T) {
 		cnt++
 		m.Unlock()
 	}))
+	defer proxiServer.Close()
 
 	p := &p{url: proxiServer.URL}
 	c, err := proxi.Client(p)
@@ -30,15 +31,10 @@ func TestFetch(t *testing.T) {
 	defer ts.Close()
 	url := ts.URL
 
-	c, err = proxi.Client(p)
-	if err != nil {
-		t.Error(err)
-	}
-
 	tries := 5
 
 	f := proxi.NewFetcher(c, time.Second, tries)
-	_, err = f.Fetch(context.Background(), url, nil)
+	_, err = f.Fetch(context.Background(), http.MethodGet, url, nil, nil)
 	if err != nil {
 		t.Error(err)
 	}

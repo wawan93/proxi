@@ -22,12 +22,11 @@ func NewFetcher(client *http.Client, timeout time.Duration, tries int) *fetcher 
 	return &fetcher{client, timeout, tries}
 }
 
-func (f *fetcher) Fetch(ctx context.Context, url string, headers http.Header) (data string, err error) {
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+func (f *fetcher) Fetch(ctx context.Context, method string, url string, headers http.Header, body io.Reader) (data string, err error) {
+	req, err := http.NewRequest(method, url, body)
 	if err != nil {
-		return "", fmt.Errorf("cannot create request: %v", err)
+		return "", fmt.Errorf("cannot create request: %w", err)
 	}
-	delete(headers, "Host")
 	req.Header = headers
 
 	ctx, cancel := context.WithCancel(ctx)
