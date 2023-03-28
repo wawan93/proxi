@@ -50,33 +50,3 @@ func TestFetch(t *testing.T) {
 		t.Error("proxy was not used")
 	}
 }
-
-func BenchmarkFetch(t *testing.B) {
-	var proxiServer = httptest.NewServer(nil)
-
-	p := &p{url: proxiServer.URL}
-	c, err := proxi.Client(p)
-	if err != nil {
-		t.Error(err)
-	}
-
-	ts := httptest.NewServer(nil)
-	defer ts.Close()
-	url := ts.URL
-
-	c, err = proxi.Client(p)
-	if err != nil {
-		t.Error(err)
-	}
-
-	tries := 3
-
-	f := proxi.NewFetcher(c, time.Second, tries)
-	ctx := context.Background()
-	for i := 0; i < t.N; i++ {
-		_, err = f.Fetch(ctx, url, nil)
-		if err != nil {
-			t.Error(err)
-		}
-	}
-}

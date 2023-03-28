@@ -5,7 +5,7 @@ package pool
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
@@ -57,7 +57,7 @@ func (p *SSLProxiesPool) Update() error {
 	}
 	defer resp.Body.Close()
 
-	proxiesBytes, err := ioutil.ReadAll(resp.Body)
+	proxiesBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("cannot parse proxies: %v", err)
 	}
